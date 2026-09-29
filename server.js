@@ -8,23 +8,31 @@ const authRoutes = require('./routes/auth');
 const fisherfolkRoutes = require('./routes/fisherfolk');
 const assistanceRoutes = require('./routes/assistance');
 const locationRoutes = require('./routes/locations');
-const verifyToken = require('./middleware/auth'); // Import Auth Middleware
+const gearsRoutes = require('./routes/gears');
+const boatsRoutes = require('./routes/boats');
+const aquacultureRoutes = require('./routes/aquaculture');
+const disasterRoutes = require('./routes/disasters');
+const verifyToken = require('./middleware/auth');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// Serve static frontend files
+// Serve static frontend dashboard
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Public Route (Generate Token)
+// Public Auth Route
 app.use('/api/v1/auth', authRoutes);
 
-// Protected API Routes (Requires Bearer Token)
+// Protected API Routes
 app.use('/api/v1/fisherfolk', verifyToken, fisherfolkRoutes);
 app.use('/api/v1/assistance', verifyToken, assistanceRoutes);
 app.use('/api/v1/locations', verifyToken, locationRoutes);
+app.use('/api/v1/gears', verifyToken, gearsRoutes);
+app.use('/api/v1/boats', verifyToken, boatsRoutes);
+app.use('/api/v1/aquaculture', verifyToken, aquacultureRoutes);
+app.use('/api/v1/disasters', verifyToken, disasterRoutes);
 
 const PORT = process.env.PORT || 5000;
 
